@@ -1,6 +1,7 @@
 #include "encryptionLibrary.c"
 #include <string>
 #include <iostream>
+#include <ctime>
 
 #define NUM_TESTS 1000
 
@@ -19,6 +20,7 @@ int numOptions = sizeof(acceptableChars) - 1;
 
 std::string generateRandomString(int stringLength)
 {
+    srand(time(0));
     std::string output;
     for(int counter = 0; counter < (stringLength - 1); counter++)
         output += acceptableChars[rand() % numOptions];
