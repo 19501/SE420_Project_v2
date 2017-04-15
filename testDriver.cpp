@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-#define NUM_TESTS 1000000
+#define NUM_TESTS 1000
 
 /////////////////////////////////////////////////////////////////////////////////
 //  These are for generating random strings for testing.
@@ -11,8 +11,8 @@ static const char acceptableChars[] =
 "~!@#$%^&*()_+"
 "abcdefghijklmnopqrstuvwxyz"
 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-"[]\;',./"
-"{}|:\"<>?"
+"[];',./"
+"{}|:<>?"
 "\t ";
 
 int numOptions = sizeof(acceptableChars) - 1;
@@ -36,14 +36,16 @@ int test3(int testnum, std::string inputMessage, std::string hashKeyString, std:
     //std::cout << "\nDecrypted: " << decryptedMessage;
     //std::cout << "\nOriginal:  " << inputMessage;
 
-    if (decryptedMessage.compare(inputMessage))
+    if (decryptedMessage.compare(inputMessage) == 0)
     {
         std::cout << "\n\n\tSUCCESS\n\n";
         return 1;
     }
     else
     {
-        std::cout << "\n\n\tFAILURE\n\n";
+        std::cout << "\n\n\tFAILURE:\n\n";
+        std::cout << "\nInput: " << inputMessage;
+        std::cout << "\nOutput: " << decryptedMessage;
         return 0;
     }
 }
@@ -51,13 +53,27 @@ int test3(int testnum, std::string inputMessage, std::string hashKeyString, std:
 int main()
 {
     std::cout << "Initializing Test Driver...\n\n";
+
+    /*
+    std::cout << "\n\nSimple test covering all required inputs:";
+    std::string firstTestString = "`1234567890-=~!@#$%^&*()_+[]{}|;':,./<>?";
+    std::cout << "\nFirst test string: " << firstTestString;
+    std::cout << "\nPassed = ";
+    if (test3(0, firstTestString, "hashTest", "alphabet", "tranposeThisToALongerKey") == 1)
+        std::cout << "PASS";
+    else
+        std::cout << "FAIL";
+
+    */
+
+    std::cout << "\n\nBeginning Automated Tests:";
     int testsCompleted = 0;
     int passed = 0, failed = 0;
     while (testsCompleted < NUM_TESTS)
     {
         std::string randomMessage = generateRandomString(1000);
-        std::string randomHashString = generateRandomString(1000);
-        std::string randomAlphabet = generateRandomString(1000);
+        std::string randomHashString = generateRandomString(10);
+        std::string randomAlphabet = "abcdefghijklmnopqrstuvwxyz";  //generateRandomString(1000);
         std::string randomTransKey = generateRandomString(1000);
 
         if (test3(testsCompleted, randomMessage, randomHashString, randomAlphabet, randomTransKey) == 1)
@@ -67,8 +83,8 @@ int main()
 
         testsCompleted++;
     }
-    std::cout << "\n\nTests Passed: " << passed;
-    std::cout << "\nTests Failed: " << failed;
+    std::cout << "\n\nAutomated Tests Passed: " << passed;
+    std::cout << "\nAutomated Tests Failed: " << failed;
     /*
     //  TEST CASE #1: SIMPLEST SINGLE STRING INPUT
     std::cout << "TEST CASE #1: SIMPLE EXAMPLE STRING\n\n";

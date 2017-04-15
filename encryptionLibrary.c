@@ -262,6 +262,8 @@ char* encipherAllThree(std::string input, std::string givenHashKey, std::string 
 
 char* decipherAllThree(std::string input, std::string givenHashKey, std::string givenCipherAlphabet, std::string givenTransKey)
 {
+    givenTransKey.resize(input.size()); //  Extend the transposition key to avoid needing 'pad' characters.
+
     const char* inputCStringC = input.c_str();
     const char* hashKeyCStringC = givenHashKey.c_str();
     const char* givenCipherAlphabetCStringC = givenCipherAlphabet.c_str();
