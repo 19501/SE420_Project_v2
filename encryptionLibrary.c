@@ -1,12 +1,17 @@
 // Magnus Bergman
 // SE420 SQA
 
+#ifndef ENCRYPTIONLIBRARY_C
+#define ENCRYPTIONLIBRARY_C
+
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include <math.h>
 #include <string>
+#include <fstream>
+#include <iostream>
 
 typedef struct {
 	int Key;
@@ -39,7 +44,7 @@ char* PadRight(char* str, int max, char padChar) {
 			output[i] = i < strLen ? str[i] : padChar;
 	}
 
-	output[max] = '\0';
+	//output[max] = '\0';
 	return output;
 }
 
@@ -102,7 +107,7 @@ char* EncipherTrans(char* input, char* key, char padChar)
 		output[i] = sortedColChars[currentRow][currentColumn];
 	}
 
-	output[totalChars] = '\0';
+	//output[totalChars] = '\0';
 	return output;
 }
 
@@ -141,7 +146,7 @@ char* DecipherTrans(char* input, char* key)
 		output[i] = unsortedColChars[currentRow][currentColumn];
 	}
 
-	output[totalChars] = '\0';
+	//output[totalChars] = '\0';
 	return output;
 }
 
@@ -164,7 +169,7 @@ bool CipherSub(char* input, char* oldAlphabet, char* newAlphabet, char* output)
 			output[i] = input[i];
 	}
 
-	output[inputLen] = '\0';
+	//output[inputLen] = '\0';
 	return true;
 }
 
@@ -301,3 +306,45 @@ char* decipherAllThree(std::string input, std::string givenHashKey, std::string 
 
     return outputText;
 }
+
+int encipherFromFile(std::string inputFileName, std::string outputFileName, std::string hashKey, std::string cipherAlphabet, std::string transpositionKey)
+{
+    std::string fileInputLine;
+    std::ifstream inputFile (inputFileName);
+    std::ofstream outputFile (outputFileName);
+
+    if ((inputFile.is_open()) && (outputFile.is_open()))
+    {
+        while (getline(inputFile, fileInputLine))
+        {
+            outputFile << encipherAllThree(fileInputLine, hashKey, cipherAlphabet, transpositionKey) << "\n";
+        }
+        inputFile.close();
+        outputFile.close();
+        return 1;
+    }
+    else
+        return 0;
+}
+
+int decipherFromFile(std::string inputFileName, std::string outputFileName, std::string hashKey, std::string cipherAlphabet, std::string transpositionKey)
+{
+    std::string fileInputLine;
+    std::ifstream inputFile (inputFileName);
+    std::ofstream outputFile (outputFileName);
+
+    if ((inputFile.is_open()) && (outputFile.is_open()))
+    {
+        while (getline(inputFile, fileInputLine))
+        {
+            outputFile << decipherAllThree(fileInputLine, hashKey, cipherAlphabet, transpositionKey) << "\n";
+        }
+        inputFile.close();
+        outputFile.close();
+        return 1;
+    }
+    else
+        return 0;
+}
+
+#endif // ENCRYPTIONLIBRARY_C

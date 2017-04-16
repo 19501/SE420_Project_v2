@@ -1,4 +1,6 @@
 #include "encryptionLibrary.c"
+#include "cppHelpers.h"
+
 #include <string>
 #include <iostream>
 #include <ctime>
@@ -15,7 +17,7 @@ static const char acceptableChars[] =
 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "[]\\;',./"
 "{}|:\"<>?"
-"\t ";
+"    ";
 
 int numOptions = sizeof(acceptableChars) - 1;
 
@@ -61,17 +63,25 @@ int main()
 {
     std::cout << "Initializing Test Driver...\n\n";
 
+    char commandChar;
+
     std::string testMessage = "`1234567890-=~!@#$%^&*()_+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ[];',./{}|:<>?";
     std::string testHash = generateRandomString(10);
     std::string testAlphabet = "qwertyuiopasdfghjklzxcvbnm";
-    std::string testTransKey = generateRandomString(100);
+    std::string testTransKey = generateRandomString(10);
 
     std::cout << "\nTest message: " << testMessage;
     std::cout << "\nTest Hash: " << testHash;
     std::cout << "\nTest alphabet: " << testAlphabet;
     std::cout << "\nTest Transpose Key: " << testTransKey;
     if (test3(-1, testMessage, testHash, testAlphabet, testTransKey) == 0)
-        return 1;
+    {
+        std::cout << "\n\nContinue? (y/n) ";
+        std::cin >> commandChar;
+
+        if (commandChar == 'n')
+            return 1;
+    }
 
     std::cout << "\n\nBeginning Automated Tests:";
     int testsCompleted = 0;
@@ -95,24 +105,8 @@ int main()
 
     //  BEGIN FILE INPUT TESTING
     std::cout << "\n\nBEGINNING FILE INPUT TESTING:------------------------------------------------";
-    std::string fileInputLine;
-    std::ifstream inputFile ("testInput.txt");
 
-    if (inputFile.is_open())
-    {
-        while (getline(inputFile, fileInputLine))
-        {
-            //std::string randomHashString = generateRandomString(10);
-            //std::string randomAlphabet = "abcdefghijklmnopqrstuvwxyz";
-            //std::string randomTransKey = generateRandomString(100);
+    encipherFromFile("testInput.txt", "testCiphered.txt", testHash, testAlphabet, testTransKey);
 
-            std::cout << "\nFILE READ. MESSAGE:\n" << fileInputLine;
-
-            if (test3(0, fileInputLine, testHash, testAlphabet, testTransKey) == 1)
-                std::cout << "\nFILE INPUT READ CORRECTLY.";
-            else
-                std::cout << "\nFILE TEST FAILED.";
-        }
-        inputFile.close();
-    }
+    decipherFromFile("testCiphered.txt", "testDecoded.txt", testHash, testAlphabet, testTransKey);
 }
