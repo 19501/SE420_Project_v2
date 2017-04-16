@@ -2,8 +2,9 @@
 #include <string>
 #include <iostream>
 #include <ctime>
+#include <fstream>
 
-#define NUM_TESTS 10000
+#define NUM_TESTS 1000
 
 /////////////////////////////////////////////////////////////////////////////////
 //  These are for generating random strings for testing.
@@ -12,8 +13,8 @@ static const char acceptableChars[] =
 "~!@#$%^&*()_+"
 "abcdefghijklmnopqrstuvwxyz"
 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-"[];',./"
-"{}|:<>?"
+"[]\\;',./"
+"{}|:\"<>?"
 "\t ";
 
 int numOptions = sizeof(acceptableChars) - 1;
@@ -69,7 +70,8 @@ int main()
     std::cout << "\nTest Hash: " << testHash;
     std::cout << "\nTest alphabet: " << testAlphabet;
     std::cout << "\nTest Transpose Key: " << testTransKey;
-    test3(-1, testMessage, testHash, testAlphabet, testTransKey);
+    if (test3(-1, testMessage, testHash, testAlphabet, testTransKey) == 0)
+        return 1;
 
     std::cout << "\n\nBeginning Automated Tests:";
     int testsCompleted = 0;
@@ -77,11 +79,11 @@ int main()
     while (testsCompleted < NUM_TESTS)
     {
         std::string randomMessage = generateRandomString(1000);
-        std::string randomHashString = generateRandomString(10);
-        std::string randomAlphabet = "abcdefghijklmnopqrstuvwxyz";  //generateRandomString(1000);
-        std::string randomTransKey = generateRandomString(1000);
+        //std::string randomHashString = generateRandomString(10);
+        //std::string randomAlphabet = "abcdefghijklmnopqrstuvwxyz";
+        //std::string randomTransKey = generateRandomString(100);
 
-        if (test3(testsCompleted, randomMessage, randomHashString, randomAlphabet, randomTransKey) == 1)
+        if (test3(testsCompleted, randomMessage, testHash, testAlphabet, testTransKey) == 1)
             passed++;
         else
             failed++;
@@ -90,4 +92,27 @@ int main()
     }
     std::cout << "\n\nAutomated Tests Passed: " << passed;
     std::cout << "\nAutomated Tests Failed: " << failed;
+
+    //  BEGIN FILE INPUT TESTING
+    std::cout << "\n\nBEGINNING FILE INPUT TESTING:------------------------------------------------";
+    std::string fileInputLine;
+    std::ifstream inputFile ("testInput.txt");
+
+    if (inputFile.is_open())
+    {
+        while (getline(inputFile, fileInputLine))
+        {
+            //std::string randomHashString = generateRandomString(10);
+            //std::string randomAlphabet = "abcdefghijklmnopqrstuvwxyz";
+            //std::string randomTransKey = generateRandomString(100);
+
+            std::cout << "\nFILE READ. MESSAGE:\n" << fileInputLine;
+
+            if (test3(0, fileInputLine, testHash, testAlphabet, testTransKey) == 1)
+                std::cout << "\nFILE INPUT READ CORRECTLY.";
+            else
+                std::cout << "\nFILE TEST FAILED.";
+        }
+        inputFile.close();
+    }
 }
