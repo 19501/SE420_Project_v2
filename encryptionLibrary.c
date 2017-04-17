@@ -1,9 +1,6 @@
 // Magnus Bergman
 // SE420 SQA
 
-#ifndef ENCRYPTIONLIBRARY_C
-#define ENCRYPTIONLIBRARY_C
-
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -12,6 +9,8 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+
+#include "ppmHelper.h"
 
 typedef struct {
 	int Key;
@@ -107,7 +106,7 @@ char* EncipherTrans(char* input, char* key, char padChar)
 		output[i] = sortedColChars[currentRow][currentColumn];
 	}
 
-	//output[totalChars] = '\0';
+	output[totalChars] = '\0';
 	return output;
 }
 
@@ -146,7 +145,7 @@ char* DecipherTrans(char* input, char* key)
 		output[i] = unsortedColChars[currentRow][currentColumn];
 	}
 
-	//output[totalChars] = '\0';
+	output[totalChars] = '\0';
 	return output;
 }
 
@@ -169,7 +168,7 @@ bool CipherSub(char* input, char* oldAlphabet, char* newAlphabet, char* output)
 			output[i] = input[i];
 	}
 
-	//output[inputLen] = '\0';
+	output[inputLen] = '\0';
 	return true;
 }
 
@@ -220,7 +219,7 @@ void hashDecrypt(char* input, unsigned long hashKey, char* output)
     }
 }
 
-char* encipherAllThree(std::string input, std::string givenHashKey, std::string givenCipherAlphabet, std::string givenTransKey)
+std::string encipherAllThree(std::string input, std::string givenHashKey, std::string givenCipherAlphabet, std::string givenTransKey)
 {
     givenTransKey.resize(input.size()); //  Extend the transposition key to avoid needing 'pad' characters.
 
@@ -262,10 +261,11 @@ char* encipherAllThree(std::string input, std::string givenHashKey, std::string 
     char* hashSubText = (char*)malloc(strlen(transText));
     hashEncrypt(transText, testHash, hashSubText);
 
-    return hashSubText;
+    std::string outputCPPString(hashSubText, strlen(hashSubText));
+    return outputCPPString;
 }
 
-char* decipherAllThree(std::string input, std::string givenHashKey, std::string givenCipherAlphabet, std::string givenTransKey)
+std::string decipherAllThree(std::string input, std::string givenHashKey, std::string givenCipherAlphabet, std::string givenTransKey)
 {
     givenTransKey.resize(input.size()); //  Extend the transposition key to avoid needing 'pad' characters.
 
@@ -304,7 +304,8 @@ char* decipherAllThree(std::string input, std::string givenHashKey, std::string 
     // output: outputText
     DecipherSub(unTransText, givenCipherAlphabetCString, outputText);
 
-    return outputText;
+    std::string outputCPPString(outputText, strlen(outputText));
+    return outputCPPString;
 }
 
 int encipherFromFile(std::string inputFileName, std::string outputFileName, std::string hashKey, std::string cipherAlphabet, std::string transpositionKey)
@@ -347,4 +348,15 @@ int decipherFromFile(std::string inputFileName, std::string outputFileName, std:
         return 0;
 }
 
-#endif // ENCRYPTIONLIBRARY_C
+int encipherPPM(std::string ppmName)
+{
+    PPMObject clearImage;
+    PPMObject cipheredImage;
+
+    std::ifstream image;
+    image.open(ppmName, std::ios::binary);
+    image >> clearImage;
+
+
+
+}

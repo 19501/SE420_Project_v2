@@ -1,5 +1,4 @@
 #include "encryptionLibrary.c"
-#include "cppHelpers.h"
 
 #include <string>
 #include <iostream>
@@ -14,7 +13,7 @@ static const char acceptableChars[] =
 "`1234567890-="
 "~!@#$%^&*()_+"
 "abcdefghijklmnopqrstuvwxyz"
-"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 "[]\\;',./"
 "{}|:\"<>?"
 "    ";
@@ -106,7 +105,19 @@ int main()
     //  BEGIN FILE INPUT TESTING
     std::cout << "\n\nBEGINNING FILE INPUT TESTING:------------------------------------------------";
 
-    encipherFromFile("testInput.txt", "testCiphered.txt", testHash, testAlphabet, testTransKey);
+    std::string inputFileName =         "testInput.txt";
+    std::string cipheredFileName =      "testCiphered.txt";
+    std::string decipheredFileName =    "testDecoded.txt";
 
-    decipherFromFile("testCiphered.txt", "testDecoded.txt", testHash, testAlphabet, testTransKey);
+    encipherFromFile(inputFileName, cipheredFileName, testHash, testAlphabet, testTransKey);
+
+    decipherFromFile(cipheredFileName, decipheredFileName, testHash, testAlphabet, testTransKey);
+
+    std::cout << "\nFile ciphering & deciphering tested. Please manually inspect the relevant files.";
+
+    std::cout << "\n\nContinue? (y/n) ";
+    std::cin >> commandChar;
+    if (commandChar == 'n')
+        return 1;
+
 }
