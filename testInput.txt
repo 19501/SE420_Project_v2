@@ -2,4 +2,16 @@ This is the first line of text to test.
 This is the second line of text to test.
 Finally, this is the last line of text.
 Hopefully, no more than three lines of text will be required for testing.
-Wait...
+Wait a minute...
+
+^That was an empty line.
+This line ends with the default pad character (x5)-----
+
+	This line is tabbed-in once
+		This one, twice
+			And three times.
+
+`1234567890-=~!@#$%^&*()_+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ[];',./{}|:<>?
+
+\nThis line starts with a backslash-n
+\tThis one starts with a backslash-t

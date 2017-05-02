@@ -1,3 +1,6 @@
+//  Note: This module was written by modifying code from:
+//  https://www.programmingalgorithms.com/algorithm/simple-substitution-cipher?lang=C%2B%2B
+
 #include <string>
 
 using namespace std;

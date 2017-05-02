@@ -56,11 +56,13 @@ int* GetShiftIndexes(string key)
 	return indexes;
 }
 
-string EncipherTrans(string input, string key, char padChar)
+string EncipherTrans(string input, string key, char padChar = '-')
 {
 	string output = "";
 	int totalChars = input.length();
 	int keyLength = key.length();
+
+	//  Extend the input string to match the required length, adding 'padChar' as needed to the end of input
 	input = (totalChars % keyLength == 0) ? input : PadRight(input, totalChars - (totalChars % keyLength) + keyLength, padChar);
 	totalChars = input.length();
 	int totalColumns = keyLength;
@@ -96,7 +98,7 @@ string EncipherTrans(string input, string key, char padChar)
 	return output;
 }
 
-string DecipherTrans(string input, string key, char padChar)
+string DecipherTrans(string input, string key, char padChar = '-')
 {
 	string output = "";
 	int keyLength = key.length();
@@ -131,6 +133,7 @@ string DecipherTrans(string input, string key, char padChar)
 		output += unsortedColChars[currentRow][currentColumn];
 	}
 
+    //  Remove the extra pad characters that had been added as part of the initial encryption
 	while (output.back() == padChar)
         output.pop_back();
 

@@ -1,3 +1,6 @@
+//  Note: This module was written by modifying code found from:
+//  https://www.programmingalgorithms.com/algorithm/transposition-cipher?lang=C%2B%2B
+
 #include <iostream>
 #include <list>
 #include <cmath>

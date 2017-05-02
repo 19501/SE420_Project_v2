@@ -11,11 +11,9 @@
 #include <iostream>
 
 #include "ppmHelper.h"
+#include "transpose.h"
 
-typedef struct {
-	int Key;
-	char Value;
-} KeyValuePair;
+/*
 
 int compare(const void* first, const void* second) {
 	return ((KeyValuePair*)first)->Value - ((KeyValuePair*)second)->Value;
@@ -106,7 +104,7 @@ char* EncipherTrans(char* input, char* key, char padChar)
 		output[i] = sortedColChars[currentRow][currentColumn];
 	}
 
-	output[totalChars] = '\0';
+	output[totalChars-1] = '\0';
 	return output;
 }
 
@@ -145,9 +143,10 @@ char* DecipherTrans(char* input, char* key)
 		output[i] = unsortedColChars[currentRow][currentColumn];
 	}
 
-	output[totalChars] = '\0';
+	output[totalChars-1] = '\0';
 	return output;
 }
+*/
 
 bool CipherSub(char* input, char* oldAlphabet, char* newAlphabet, char* output)
 {
@@ -168,7 +167,7 @@ bool CipherSub(char* input, char* oldAlphabet, char* newAlphabet, char* output)
 			output[i] = input[i];
 	}
 
-	output[inputLen] = '\0';
+	output[inputLen-1] = '\0';
 	return true;
 }
 
@@ -221,7 +220,7 @@ void hashDecrypt(char* input, unsigned long hashKey, char* output)
 
 std::string encipherAllThree(std::string input, std::string givenHashKey, std::string givenCipherAlphabet, std::string givenTransKey)
 {
-    givenTransKey.resize(input.size()); //  Extend the transposition key to avoid needing 'pad' characters.
+    //givenTransKey.resize(input.size()); //  Extend the transposition key to avoid needing 'pad' characters.
 
     const char* inputCStringC = input.c_str();
     const char* hashKeyCStringC = givenHashKey.c_str();
@@ -267,7 +266,7 @@ std::string encipherAllThree(std::string input, std::string givenHashKey, std::s
 
 std::string decipherAllThree(std::string input, std::string givenHashKey, std::string givenCipherAlphabet, std::string givenTransKey)
 {
-    givenTransKey.resize(input.size()); //  Extend the transposition key to avoid needing 'pad' characters.
+    //givenTransKey.resize(input.size()); //  Extend the transposition key to avoid needing 'pad' characters.
 
     const char* inputCStringC = input.c_str();
     const char* hashKeyCStringC = givenHashKey.c_str();
@@ -346,17 +345,4 @@ int decipherFromFile(std::string inputFileName, std::string outputFileName, std:
     }
     else
         return 0;
-}
-
-int encipherPPM(std::string ppmName)
-{
-    PPMObject clearImage;
-    PPMObject cipheredImage;
-
-    std::ifstream image;
-    image.open(ppmName, std::ios::binary);
-    image >> clearImage;
-
-
-
 }

@@ -1,3 +1,6 @@
+#ifndef ENCRYPTIONLIBRARY_H
+#define ENCRYPTIONLIBRARY_H
+
 #include "fileHandler.h"
 #include "transpose.h"
 #include "substitute.h"
@@ -8,3 +11,5 @@
 std::string encipherAllThree(std::string input, std::string givenHashKey, std::string givenCipherAlphabet, std::string givenTransKey, char padChar);
 
 std::string decipherAllThree(std::string input, std::string givenHashKey, std::string givenCipherAlphabet, std::string givenTransKey, char padChar);
+
+#endif // ENCRYPTIONLIBRARY_H
